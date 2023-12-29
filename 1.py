@@ -1,5 +1,3 @@
-import numpy
-import pandas
 class Solution(object):
     def twoSum(self, nums, target):
         """
