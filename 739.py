@@ -1,5 +1,10 @@
 class Solution(object):
     def dailyTemperatures(self, temperatures):
+        l=len(temperatures)
+        ans=[0]*l
+        stack=[]
+        for i, t in enumerate(temperatures):
+    def dailyTemperatures(self, temperatures):
         """
         :type temperatures: List[int]
         :rtype: List[int]
