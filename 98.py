@@ -1,37 +1,35 @@
+class Solution:
+    def isValidBST(self, root):
+        # pre=-float('inf')
+        # p=root
+        # stack=[]
+        # while p or stack:
+        #     while p:
+        #         stack.append(p)
+        #         p=p.left
+        #     p=stack.pop()
+        #     if p.val<=pre:
+        #         return False
+        #     pre=p.val
+        #     p=p.right
+        # return True
+        def dfs(root, pre, ans):
+            if root is None:
+                return
+            dfs(root.left, pre, ans)
+            if pre[0]>=root.val:
+                ans[0]=False
+            pre[0]=root.val
+            dfs(root.right, pre, ans)
+        pre=[-100000]
+        ans=[True]
+        dfs(root, pre, ans)
+        return ans[0]
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
         self.left = left
         self.right = right
-class Solution:
-    def getMinimumDifference(self, root):
-        # p=root
-        # stack=[]
-        # pre=-1000000
-        # ans=10000000
-        # while p is not None or stack:
-        #     while p is not None:
-        #         stack.append(p)
-        #         p=p.left
-        #     p=stack.pop()
-        #     cur_val=p.val
-        #     if cur_val-pre<ans:
-        #         ans=cur_val-pre
-        #     pre=cur_val
-        #     p=p.right
-
-        # return ans
-        def dfs(root, pre, ans):
-            if root is None:
-                return
-            dfs(root.left, pre, ans)
-            ans[0]=min(root.val-pre[0], ans[0])
-            pre[0]=root.val
-            dfs(root.right, pre, ans)
-        pre=[-1000000]
-        ans=[1000000]
-        dfs(root, pre, ans)
-        return ans[0]
 def construct_tree(l):
     root=TreeNode(l[0])
     q=[root]
@@ -49,6 +47,7 @@ def construct_tree(l):
             ele.right=new
         i+=1
     return root
-l=[600,424,612,None,499,None,689]
+
+l=[5,1,4,None,None,3,6]
 t=construct_tree(l)
-Solution().getMinimumDifference(t)
+print(Solution().isValidBST(t))
