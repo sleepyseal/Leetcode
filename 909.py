@@ -1,41 +1,32 @@
 class Solution:
-
     def snakesAndLadders(self, board):
-        graph={}
-        m,n=len(board), len(board[0])
-        count=1
-        for i in range(m-1,-1,-1):
-            for j in range(n):
-                if board[i][j]==-1:
-                    graph[count]=[count+1]
-                else:
-                    if count+1!=board[i][j]:
-                        graph[count]=[count+1, board[i][j]]
-                    else:
-                        graph[count]=[count+1]
-                count+=1
-        del graph[m*n]
-        def bfs(node, graph, ans, target):
-            q=[node]
-            child=[]
-            visited=[]
-            while q:
-                while q:
-                    ele=q.pop(0)
-                    visited.append(ele)
-                    if ele==target:
-                        return ans
-                    for i in graph[ele]:
-                        if i not in visited:
-                            child.append(i)
-                ans+=1
-                q=child
-                child=[]
-            return ans
-        ans=bfs(1, graph, 0, m*n)
-        return ans
+        n = len(board)
 
+        def id2rc(idx: int) -> (int, int):
+            r, c = (idx - 1) // n, (idx - 1) % n
+            if r % 2 == 1:
+                c = n - 1 - c
+            return n - 1 - r, c
+        
+        vis = set()
+        q = deque([(1, 0)])
+        while q:
+            idx, step = q.popleft()
+            for i in range(1, 6 + 1):
+                idx_nxt = idx + i
+                if idx_nxt > n * n:   # 超出边界
+                    break
+                
+                x_nxt, y_nxt = id2rc(idx_nxt)   # 得到下一步的行列
+                if board[x_nxt][y_nxt] > 0:   # 存在蛇或梯子
+                    idx_nxt = board[x_nxt][y_nxt]
+                if idx_nxt == n * n:   # 到达终点
+                    return step + 1
+                if idx_nxt not in vis:
+                    vis.add(idx_nxt)
+                    q.append((idx_nxt, step + 1))   # 扩展新状态
+        
+        return -1
 
-
-board = [[-1,-1],[-1,3]]
+board = [[-1,1,2,-1],[2,13,15,-1],[-1,10,-1,-1],[-1,6,2,8]]
 print(Solution().snakesAndLadders(board))
